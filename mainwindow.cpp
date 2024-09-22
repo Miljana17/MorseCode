@@ -368,6 +368,7 @@ void MainWindow::checkAnswer1(MainWindow::ButtonInfo info) {
 
     if (selectedLetter == currentMorseCode)
     {
+        qDebug() << "Slovo " << selectedLetter << "se popunjava a fillButton je" << fillButton;
         buttonsFill[fillButton]->updateFill(true);
         //responseLabel->setText("Tacno");
         for (int i = 0; i < letters.size(); ++i)
@@ -389,11 +390,15 @@ void MainWindow::checkAnswer1(MainWindow::ButtonInfo info) {
                             m++;
                             if(m == letters.size())
                             {
+
                                 //delete levelPage;
                                 //qDebug() << "usao da napravi widget za nextlevel!!!" << m;
                                 responseLabel->setText("NEXT LEVEL");
                                 m = info.level + 1;
+
                                 createLevelWidget(m);
+
+
                                 //qDebug() << "INFOLEVEL" << info.level;
                                 stackedWidget->setCurrentWidget(levelPage);
                             }
@@ -435,6 +440,7 @@ void MainWindow::checkAnswer1(MainWindow::ButtonInfo info) {
             }
 
         }
+         qDebug() << "Slovo " << selectedLetter << "se popunjava a fillButton je" << fillButton;
         buttonsFill[fillButton]->updateFill(false);
         //responseLabel->setText("Netacno");
 
@@ -476,6 +482,7 @@ QString MainWindow::getRandomMorseCodeForLevel(int level) {
 
 QMap<QString, int> MainWindow::creatingVariable(int level)
 {
+
     QList<QString> letters = levels.value(level);
     for (int i = 0; i < letters.size(); ++i)
     {
@@ -488,13 +495,16 @@ QMap<QString, int> MainWindow::creatingVariable(int level)
 
 void MainWindow::createLevelWidget(int level)
 {
-
+    stackedWidget->removeWidget(levelPage);
+    delete levelPage;
+    numOfInccorect = 0;
     showInfoLevel(level);
     levelPage = new QWidget();
     level2Layout = new QVBoxLayout(levelPage);
     signalMapperlevel2 = new QSignalMapper(this);
 
     createButtonsDependOnLevel(signalMapperlevel2, level2Layout, level, levelPage);
+    ClearFillButtons(buttonsFill);
 
     stackedWidget->addWidget(levelPage);
 
@@ -584,15 +594,18 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
     QHBoxLayout *horizontal1 = new QHBoxLayout(widget);
     for (int row = 1; row <= 10; ++row) {
         if (index < alphabet.size()) {
+            ColorFillButton *button = new ColorFillButton(alphabet.at(index), this);
+            button->setFixedSize(50, 50);
+            //button->setFilledParts(0);
+            //buttonsFill.insert(index, button);
+            buttonsFill.append(button);
+            horizontal1->addWidget(button);
+
             for (int i = 0; i < letters.size(); ++i) {
 
                 if(letters[i] == alphabet.at(index)){
 
-                    ColorFillButton *button = new ColorFillButton(alphabet.at(index), this);
-                    button->setFixedSize(50, 50);
-                    buttonsFill.insert(index, button);
-                    //buttonsFill.append(button);
-                    horizontal1->addWidget(button);
+
                     button->setStyleSheet(
                         "QPushButton {"
                         "   background-color: #A9A9A9;"  // DarkGray
@@ -612,15 +625,6 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
                         //qDebug() << "Button pressed, info index:" << info.index << "level:" << info.level;
                         checkAnswer1(info);
                     });
-                }
-                else
-                {
-                    QPushButton *button = new QPushButton(alphabet.at(index), this);
-                    //ColorFillButton *button = new ColorFillButton(alphabet.at(index), this);
-                    button->setFixedSize(50, 50);
-                    //buttonsFill.append(button);
-                    buttons.insert(index, button);
-                    horizontal1->addWidget(button);
                 }
 
             }
@@ -638,13 +642,17 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
     // drugih 9 dugmadi
     for (int col = 1; col <= 9; ++col) {
         if (index < alphabet.size()) {
-            QPushButton *button = new QPushButton(alphabet.at(index), this);
+            ColorFillButton *button = new ColorFillButton(alphabet.at(index), this);
             button->setFixedSize(50, 50);
-            buttons.append(button);
+            //button->setFilledParts(0);
+            //buttonsFill.insert(index, button);
+            buttonsFill.append(button);
             horizontal2->addWidget(button);
+
             for (int i = 0; i < letters.size(); ++i) {
 
                 if(letters[i] == alphabet.at(index)){
+
 
                     button->setStyleSheet(
                         "QPushButton {"
@@ -666,6 +674,7 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
                         checkAnswer1(info);
                     });
                 }
+
             }
             ++index;
         }
@@ -677,14 +686,17 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
     // poslednjih 7 dugmadi
     for (int col = 1; col <= 7; ++col) {
         if (index < alphabet.size()) {
-            QPushButton *button = new QPushButton(alphabet.at(index), this);
+            ColorFillButton *button = new ColorFillButton(alphabet.at(index), this);
             button->setFixedSize(50, 50);
-            buttons.append(button);
+            //button->setFilledParts(0);
+            //buttonsFill.insert(index, button);
+            buttonsFill.append(button);
             horizontal3->addWidget(button);
 
             for (int i = 0; i < letters.size(); ++i) {
 
                 if(letters[i] == alphabet.at(index)){
+
 
                     button->setStyleSheet(
                         "QPushButton {"
@@ -706,6 +718,7 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
                         checkAnswer1(info);
                     });
                 }
+
             }
             ++index;
         }
@@ -720,6 +733,15 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
 
 
 
+}
+
+void MainWindow::ClearFillButtons(QVector<ColorFillButton*> buttons)
+{
+    for(int i = 0; i < alphabet.size(); ++i)
+    {
+        qDebug() << "Koliko puta on ovde udje" << i;
+        buttons[i]->setFilledParts(0);
+    }
 }
 
 

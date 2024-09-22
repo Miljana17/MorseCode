@@ -10,16 +10,16 @@ CircleWidget::CircleWidget(QWidget *parent)
 
 void CircleWidget::setFilled(bool filled)
 {
-    qDebug() << "Da li je usao u setFilled:" << filled;
+    //qDebug() << "Da li je usao u setFilled:" << filled;
     m_filled = filled;
-     qDebug() << "Pozivam update()";
+    //qDebug() << "Pozivam update()";
     update();  // Osvježavanje widgeta
 }
 
 void CircleWidget::paintEvent(QPaintEvent *event)
 {
 
-    qDebug() << "Da li je usao u paintevent:";
+    qDebug() << "Da li je usao u paintevent za zivote:";
     Q_UNUSED(event);
 
     QPainter painter(this);

@@ -41,6 +41,7 @@ private slots:
     QString getRandomMorseCodeForLevel(int level);
     QMap<QString, int> creatingVariable(int level);
     void createLevelWidget(int level);
+    void ClearFillButtons(QVector<ColorFillButton*> buttons);
 
     void createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLayout* layout, int level, QWidget* widget);
 

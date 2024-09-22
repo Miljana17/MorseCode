@@ -15,6 +15,8 @@ public:
     // Funkcija koja menja popunjavanje dugmeta
     void updateFill(bool increase);
 
+    void setFilledParts(int parts);
+
 protected:
     // Override paintEvent za prilagođeno crtanje
     void paintEvent(QPaintEvent *event) override;
@@ -23,8 +25,12 @@ private slots:
     void toggleFill();  // Slot za reakciju na klik
 
 private:
-    int filledParts;  // Trenutno popunjenih delova
+
     const int totalParts = 5;  // Ukupan broj delova za punjenje
+
+public:
+    int filledParts;  // Trenutno popunjenih delova
+
 };
 
 #endif // COLORFILLBUTTON_H
