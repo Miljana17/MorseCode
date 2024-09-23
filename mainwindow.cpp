@@ -26,6 +26,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
 
     stackedWidget = new QStackedWidget();
 
+    nextLevelPage = new QWidget();
+    QVBoxLayout *nextLevelLayout = new QVBoxLayout(nextLevelPage);
+    nextLevelLabel = new QLabel ("NEXT LEVEL",this);
+    nextLevelLabel->setAlignment(Qt::AlignHCenter);
+    nextLevelLabel->setFont(fontn);
+    nextLevelLayout->addWidget(nextLevelLabel);
+
+    nextLevelPage->setLayout(nextLevelLayout);
+
+
+
 
     //LEVEL 1 PAGE START
     level1Page = new QWidget();
@@ -119,6 +130,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     stackedWidget->addWidget(learnPage);
     stackedWidget->addWidget(gamePage);
     stackedWidget->addWidget(level1Page);
+    stackedWidget->addWidget(nextLevelPage);
 
 
 
@@ -310,78 +322,50 @@ void MainWindow::createButtons(QSignalMapper* signalMapper, QVBoxLayout* layout,
     }
 }
 
-void MainWindow::createButtonsForLevel(int level,QVBoxLayout* layout,QSignalMapper* signalMapper) {
-
-
-     QFont fontn("Arial",38);
-    scoreLabel = new QLabel ("",this);
-    scoreLabel->setAlignment(Qt::AlignHCenter);
-    scoreLabel->setFont(fontn);
-
-    letterLabel = new QLabel ("",this);
-    letterLabel->setAlignment(Qt::AlignHCenter);
-    letterLabel->setFont(fontn);
-
-    responseLabel = new QLabel ("",this);
-    responseLabel->setAlignment(Qt::AlignHCenter);
-    responseLabel->setFont(fontn);
-
-    QString level1 = getRandomMorseCodeForLevel(level);
-    letterLabel->setText(letterInfo[level1]);
-    layout->addWidget(scoreLabel);
-    layout->addWidget(letterLabel);
-    layout->addWidget(responseLabel);
-
-
-    QList<QString> letters = levels.value(level);
-
-    // kreiranje dugmadi za slova u zavisnosti od nivoa i njihova konekcija sa checkAnswer funkcijom
-    for (int i = 0; i < letters.size(); ++i) {
-
-        QString letter = letters[i];
-        QPushButton *button = new QPushButton(letter, this);
-        buttons.append(button);
-        layout->addWidget(button);
-
-        MainWindow::ButtonInfo info;
-        info.index = i;
-        info.level = level;
-
-        connect(button, &QPushButton::pressed, [this, info]() {
-            //qDebug() << "Button pressed, info index:" << info.index << "level:" << info.level;
-            checkAnswer1(info);
-        });
-        }
-
-}
-
 
 void MainWindow::checkAnswer1(MainWindow::ButtonInfo info) {
     //qDebug() << "checkAnswer1 called, index:" << info.index << "level:" << info.level;
     int index = info.index;
     int level = info.level;
-    int fillButton = info.fillButtonIndex;
+    //int fillButton = info.fillButtonIndex;
+
 
     //letterLabel->setText("Tacno");
     QList<QString> letters = levels[level]; //dobijam listu slova koja se koristi u zadatom nivou
     QString selectedLetter = letters.at(index);
 
+    int p = 100/letters.size();
+
     if (selectedLetter == currentMorseCode)
     {
-        qDebug() << "Slovo " << selectedLetter << "se popunjava a fillButton je" << fillButton;
-        buttonsFill[fillButton]->updateFill(true);
         //responseLabel->setText("Tacno");
         for (int i = 0; i < letters.size(); ++i)
         {
-            //qDebug() << "letters[i]" <<letters[i];
             if(selectedLetter == letters[i])
             {
                 if(variableMap[selectedLetter] < 5)
                 {
                     variableMap[selectedLetter]++;
-                    scoreLabel->setText(QString::fromStdString(std::to_string(variableMap[selectedLetter])));
-                    //qDebug() << "Selektovano slovo za poene:" << selectedLetter;
-                    qDebug() << "SABIRANJE Broj poena" << variableMap[selectedLetter] << "za slovo: " << selectedLetter;
+                    //LOGIKA ZA PROGRES BAR
+                    if(variableMap[selectedLetter] == 5)
+                    {
+                        qDebug() << "Variabala" << selectedLetter << "ima" << variableMap[selectedLetter] << " poena" ;
+                        for (int x = 0; x < letters.size(); ++x)
+                        {
+                            if(selectedLetter == letters[x])
+                            {
+                                if(progressBarMap[letters[x]] == 0)
+                                {
+                                    progress = progress + p;
+                                    progressBarMap[letters[x]]++;
+                                    progressBar->setValue(progress);
+                                    qDebug() << "PROGRESS JE" << progress;
+                                }
+                            }
+                        }
+                    }
+                    //KRAJ LOGIKE ZA PROGRESS BAR
+                    //scoreLabel->setText(QString::fromStdString(std::to_string(variableMap[selectedLetter])));
                     int m = 0;
                     for (int x = 0; x < letters.size(); ++x)
                     {
@@ -390,17 +374,22 @@ void MainWindow::checkAnswer1(MainWindow::ButtonInfo info) {
                             m++;
                             if(m == letters.size())
                             {
+                                if (nextLevelPage && stackedWidget->indexOf(nextLevelPage) != -1) {
+                                    //qDebug() << "nextLevelWidget POSTOJI";
+
+                                    stackedWidget->setCurrentWidget(nextLevelPage);  // Promeni trenutni widget
+                                }
 
                                 //delete levelPage;
                                 //qDebug() << "usao da napravi widget za nextlevel!!!" << m;
                                 responseLabel->setText("NEXT LEVEL");
                                 m = info.level + 1;
+                               // stackedWidget->setCurrentWidget(nextLevelPage);
+                                 createLevelWidget(m);
 
-                                createLevelWidget(m);
-
-
+                                //stackedWidget->setCurrentWidget(levelPage);
                                 //qDebug() << "INFOLEVEL" << info.level;
-                                stackedWidget->setCurrentWidget(levelPage);
+
                             }
                         }
 
@@ -425,7 +414,7 @@ void MainWindow::checkAnswer1(MainWindow::ButtonInfo info) {
 
             //QThread::sleep(5);
             createLevelWidget(info.level);
-            stackedWidget->setCurrentWidget(levelPage);
+            //stackedWidget->setCurrentWidget(levelPage);
 
 
         }
@@ -440,8 +429,6 @@ void MainWindow::checkAnswer1(MainWindow::ButtonInfo info) {
             }
 
         }
-         qDebug() << "Slovo " << selectedLetter << "se popunjava a fillButton je" << fillButton;
-        buttonsFill[fillButton]->updateFill(false);
         //responseLabel->setText("Netacno");
 
 
@@ -452,7 +439,7 @@ void MainWindow::checkAnswer1(MainWindow::ButtonInfo info) {
                 if(variableMap[currentMorseCode] > 0)
                 {
                     variableMap[currentMorseCode]--;
-                    scoreLabel->setText(QString::fromStdString(std::to_string(variableMap[currentMorseCode])));
+                    //scoreLabel->setText(QString::fromStdString(std::to_string(variableMap[currentMorseCode])));
 
                 }
 
@@ -487,6 +474,7 @@ QMap<QString, int> MainWindow::creatingVariable(int level)
     for (int i = 0; i < letters.size(); ++i)
     {
         variableMap.insert(letters[i],0);
+        progressBarMap.insert(letters[i],0);
     }
 
     return variableMap;
@@ -495,26 +483,34 @@ QMap<QString, int> MainWindow::creatingVariable(int level)
 
 void MainWindow::createLevelWidget(int level)
 {
-    stackedWidget->removeWidget(levelPage);
-    delete levelPage;
+    /*if (levelPage != nullptr) {
+        qDebug() << "Usao u brisanje WIDGETA";
+        //stackedWidget->setCurrentWidget(nextLevelPage);  // Prebaci na drugi widget
+        stackedWidget->removeWidget(levelPage);  // Ukloni iz stackedWidget
+        levelPage->deleteLater();  // Odloži brisanje
+        levelPage = nullptr;  // Postavi pokazivač na nullptr
+    }*/
+
     numOfInccorect = 0;
+    progress = 0;
     showInfoLevel(level);
-    levelPage = new QWidget();
+
+    levelPage = new QWidget(stackedWidget);
     level2Layout = new QVBoxLayout(levelPage);
     signalMapperlevel2 = new QSignalMapper(this);
 
     createButtonsDependOnLevel(signalMapperlevel2, level2Layout, level, levelPage);
-    ClearFillButtons(buttonsFill);
+    //ClearFillButtons(buttonsFill);
 
     stackedWidget->addWidget(levelPage);
+    stackedWidget->setCurrentWidget(levelPage);
 
     QMap<QString, int> variableMap;
     variableMap = creatingVariable(level);
 
     return;
-
-
 }
+
 
 void MainWindow::showInfoLevel(int level)
 {
@@ -557,34 +553,40 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
 {
     QHBoxLayout *circlelayout = new QHBoxLayout(widget);
     circlelayout->setAlignment(Qt::AlignCenter);
-    circle1 = new CircleWidget(this);
+    circle1 = new CircleWidget(widget);
     circlelayout->addWidget(circle1);
 
-    circle2 = new CircleWidget(this);
+    circle2 = new CircleWidget(widget);
     circlelayout->addWidget(circle2);
 
-    circle3 = new CircleWidget(this);
+    circle3 = new CircleWidget(widget);
     circlelayout->addWidget(circle3);
     layout->addLayout(circlelayout);
 
     QFont fontn("Arial",38);
-    scoreLabel = new QLabel ("",this);
+    /*scoreLabel = new QLabel ("",widget);
     scoreLabel->setAlignment(Qt::AlignHCenter);
-    scoreLabel->setFont(fontn);
+    scoreLabel->setFont(fontn);*/
 
-    letterLabel = new QLabel ("",this);
+    letterLabel = new QLabel ("",widget);
     letterLabel->setAlignment(Qt::AlignHCenter);
     letterLabel->setFont(fontn);
 
-    responseLabel = new QLabel ("",this);
+    progressBar = new QProgressBar(widget);
+    progressBar->setAlignment(Qt::AlignHCenter);
+    progressBar->setMinimum(0);    // Minimalna vrednost (npr. 0%)
+    progressBar->setMaximum(100);  // Maksimalna vrednost (npr. 100%)
+
+
+    responseLabel = new QLabel ("",widget);
     responseLabel->setAlignment(Qt::AlignHCenter);
     responseLabel->setFont(fontn);
 
     QString level1 = getRandomMorseCodeForLevel(level);
     letterLabel->setText(letterInfo[level1]);
-    layout->addWidget(scoreLabel);
+    //layout->addWidget(scoreLabel);
     layout->addWidget(letterLabel);
-    layout->addWidget(responseLabel);
+    layout->addWidget(progressBar);
 
 
     QList<QString> letters = levels.value(level);
@@ -594,11 +596,11 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
     QHBoxLayout *horizontal1 = new QHBoxLayout(widget);
     for (int row = 1; row <= 10; ++row) {
         if (index < alphabet.size()) {
-            ColorFillButton *button = new ColorFillButton(alphabet.at(index), this);
+            QPushButton *button = new QPushButton(alphabet.at(index), widget);
             button->setFixedSize(50, 50);
             //button->setFilledParts(0);
             //buttonsFill.insert(index, button);
-            buttonsFill.append(button);
+            buttons.append(button);
             horizontal1->addWidget(button);
 
             for (int i = 0; i < letters.size(); ++i) {
@@ -619,7 +621,7 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
                     MainWindow::ButtonInfo info;
                     info.index = i;
                     info.level = level;
-                    info.fillButtonIndex = index;
+                    //info.fillButtonIndex = index;
 
                     connect(button, &QPushButton::pressed, [this, info]() {
                         //qDebug() << "Button pressed, info index:" << info.index << "level:" << info.level;
@@ -642,11 +644,11 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
     // drugih 9 dugmadi
     for (int col = 1; col <= 9; ++col) {
         if (index < alphabet.size()) {
-            ColorFillButton *button = new ColorFillButton(alphabet.at(index), this);
+            QPushButton *button = new QPushButton(alphabet.at(index), widget);
             button->setFixedSize(50, 50);
             //button->setFilledParts(0);
             //buttonsFill.insert(index, button);
-            buttonsFill.append(button);
+            buttons.append(button);
             horizontal2->addWidget(button);
 
             for (int i = 0; i < letters.size(); ++i) {
@@ -667,7 +669,7 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
                     MainWindow::ButtonInfo info;
                     info.index = i;
                     info.level = level;
-                    info.fillButtonIndex = index;
+                    //info.fillButtonIndex = index;
 
                     connect(button, &QPushButton::pressed, [this, info]() {
                         //qDebug() << "Button pressed, info index:" << info.index << "level:" << info.level;
@@ -686,11 +688,11 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
     // poslednjih 7 dugmadi
     for (int col = 1; col <= 7; ++col) {
         if (index < alphabet.size()) {
-            ColorFillButton *button = new ColorFillButton(alphabet.at(index), this);
+            QPushButton *button = new QPushButton(alphabet.at(index), widget);
             button->setFixedSize(50, 50);
             //button->setFilledParts(0);
             //buttonsFill.insert(index, button);
-            buttonsFill.append(button);
+            buttons.append(button);
             horizontal3->addWidget(button);
 
             for (int i = 0; i < letters.size(); ++i) {
@@ -711,7 +713,7 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
                     MainWindow::ButtonInfo info;
                     info.index = i;
                     info.level = level;
-                    info.fillButtonIndex = index;
+                    //info.fillButtonIndex = index;
 
                     connect(button, &QPushButton::pressed, [this, info]() {
                         //qDebug() << "Button pressed, info index:" << info.index << "level:" << info.level;

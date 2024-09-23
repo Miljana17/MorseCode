@@ -10,6 +10,7 @@
 #include <QSignalMapper>
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QProgressBar>
 #include "circlewidget.h"
 #include "ColorFillButton.h"
 
@@ -37,7 +38,6 @@ private slots:
     void playRandomGame();
     void checkAnswer(int index);
     void createButtons(QSignalMapper* signalMapper, QVBoxLayout* layout, int x, QWidget* widget);
-    void createButtonsForLevel(int level,QVBoxLayout* layout,QSignalMapper* signalMapper);
     QString getRandomMorseCodeForLevel(int level);
     QMap<QString, int> creatingVariable(int level);
     void createLevelWidget(int level);
@@ -52,7 +52,7 @@ private:
     struct ButtonInfo {
         int index;
         int level;
-        int fillButtonIndex;
+        //int fillButtonIndex;
     };
 
     void checkAnswer1(MainWindow::ButtonInfo info);
@@ -65,6 +65,8 @@ private:
     QLabel *letterLabel;
     QLabel *scoreLabel;
     QLabel *responseLabel;
+     QLabel *nextLevelLabel;
+    QProgressBar *progressBar;
     QTimer *timer;
     QVector<QPushButton*> buttons;  // Niz dugmadi
     QVector<ColorFillButton*> buttonsFill;
@@ -72,6 +74,7 @@ private:
     QPushButton *window;
     QString alphabet;  // String sa slovima alfabeta
     QMap<QString,int> variableMap;
+    QMap<QString,int> progressBarMap;
     QMap<QString, QString> letterInfo {
     {"A", ".-"},
     {"B", "-..."},
@@ -121,8 +124,10 @@ private:
     QWidget *levelsPage;
     QWidget *level1Page;
     QWidget *levelPage;
+     QWidget *nextLevelPage;
      QString currentMorseCode;
     int numOfInccorect;
+     int progress;
      CircleWidget *circle1;
      CircleWidget *circle2;
      CircleWidget *circle3;

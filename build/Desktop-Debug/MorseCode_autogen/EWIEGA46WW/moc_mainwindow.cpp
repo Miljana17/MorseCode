@@ -23,8 +23,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[33];
-    char stringdata0[448];
+    QByteArrayData data[32];
+    char stringdata0[426];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -52,20 +52,19 @@ QT_MOC_LITERAL(15, 171, 6), // "layout"
 QT_MOC_LITERAL(16, 178, 1), // "x"
 QT_MOC_LITERAL(17, 180, 8), // "QWidget*"
 QT_MOC_LITERAL(18, 189, 6), // "widget"
-QT_MOC_LITERAL(19, 196, 21), // "createButtonsForLevel"
-QT_MOC_LITERAL(20, 218, 5), // "level"
-QT_MOC_LITERAL(21, 224, 26), // "getRandomMorseCodeForLevel"
-QT_MOC_LITERAL(22, 251, 16), // "creatingVariable"
-QT_MOC_LITERAL(23, 268, 17), // "QMap<QString,int>"
-QT_MOC_LITERAL(24, 286, 17), // "createLevelWidget"
-QT_MOC_LITERAL(25, 304, 16), // "ClearFillButtons"
-QT_MOC_LITERAL(26, 321, 25), // "QVector<ColorFillButton*>"
-QT_MOC_LITERAL(27, 347, 7), // "buttons"
-QT_MOC_LITERAL(28, 355, 26), // "createButtonsDependOnLevel"
-QT_MOC_LITERAL(29, 382, 18), // "getRandomMorseCode"
-QT_MOC_LITERAL(30, 401, 21), // "QMap<QString,QString>"
-QT_MOC_LITERAL(31, 423, 10), // "letterInfo"
-QT_MOC_LITERAL(32, 434, 13) // "showInfoLevel"
+QT_MOC_LITERAL(19, 196, 26), // "getRandomMorseCodeForLevel"
+QT_MOC_LITERAL(20, 223, 5), // "level"
+QT_MOC_LITERAL(21, 229, 16), // "creatingVariable"
+QT_MOC_LITERAL(22, 246, 17), // "QMap<QString,int>"
+QT_MOC_LITERAL(23, 264, 17), // "createLevelWidget"
+QT_MOC_LITERAL(24, 282, 16), // "ClearFillButtons"
+QT_MOC_LITERAL(25, 299, 25), // "QVector<ColorFillButton*>"
+QT_MOC_LITERAL(26, 325, 7), // "buttons"
+QT_MOC_LITERAL(27, 333, 26), // "createButtonsDependOnLevel"
+QT_MOC_LITERAL(28, 360, 18), // "getRandomMorseCode"
+QT_MOC_LITERAL(29, 379, 21), // "QMap<QString,QString>"
+QT_MOC_LITERAL(30, 401, 10), // "letterInfo"
+QT_MOC_LITERAL(31, 412, 13) // "showInfoLevel"
 
     },
     "MainWindow\0showLetterInfo\0\0index\0"
@@ -73,9 +72,8 @@ QT_MOC_LITERAL(32, 434, 13) // "showInfoLevel"
     "randomMorseCode\0playRandomGame\0"
     "checkAnswer\0createButtons\0QSignalMapper*\0"
     "signalMapper\0QVBoxLayout*\0layout\0x\0"
-    "QWidget*\0widget\0createButtonsForLevel\0"
-    "level\0getRandomMorseCodeForLevel\0"
-    "creatingVariable\0QMap<QString,int>\0"
+    "QWidget*\0widget\0getRandomMorseCodeForLevel\0"
+    "level\0creatingVariable\0QMap<QString,int>\0"
     "createLevelWidget\0ClearFillButtons\0"
     "QVector<ColorFillButton*>\0buttons\0"
     "createButtonsDependOnLevel\0"
@@ -90,7 +88,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      17,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -98,23 +96,22 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   99,    2, 0x08 /* Private */,
-       4,    0,  102,    2, 0x08 /* Private */,
-       5,    0,  103,    2, 0x08 /* Private */,
-       6,    0,  104,    2, 0x08 /* Private */,
-       7,    0,  105,    2, 0x08 /* Private */,
-       8,    0,  106,    2, 0x08 /* Private */,
-       9,    0,  107,    2, 0x08 /* Private */,
-      10,    1,  108,    2, 0x08 /* Private */,
-      11,    4,  111,    2, 0x08 /* Private */,
-      19,    3,  120,    2, 0x08 /* Private */,
-      21,    1,  127,    2, 0x08 /* Private */,
-      22,    1,  130,    2, 0x08 /* Private */,
-      24,    1,  133,    2, 0x08 /* Private */,
-      25,    1,  136,    2, 0x08 /* Private */,
-      28,    4,  139,    2, 0x08 /* Private */,
-      29,    1,  148,    2, 0x08 /* Private */,
-      32,    1,  151,    2, 0x08 /* Private */,
+       1,    1,   94,    2, 0x08 /* Private */,
+       4,    0,   97,    2, 0x08 /* Private */,
+       5,    0,   98,    2, 0x08 /* Private */,
+       6,    0,   99,    2, 0x08 /* Private */,
+       7,    0,  100,    2, 0x08 /* Private */,
+       8,    0,  101,    2, 0x08 /* Private */,
+       9,    0,  102,    2, 0x08 /* Private */,
+      10,    1,  103,    2, 0x08 /* Private */,
+      11,    4,  106,    2, 0x08 /* Private */,
+      19,    1,  115,    2, 0x08 /* Private */,
+      21,    1,  118,    2, 0x08 /* Private */,
+      23,    1,  121,    2, 0x08 /* Private */,
+      24,    1,  124,    2, 0x08 /* Private */,
+      27,    4,  127,    2, 0x08 /* Private */,
+      28,    1,  136,    2, 0x08 /* Private */,
+      31,    1,  139,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -126,13 +123,12 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void, 0x80000000 | 12, 0x80000000 | 14, QMetaType::Int, 0x80000000 | 17,   13,   15,   16,   18,
-    QMetaType::Void, QMetaType::Int, 0x80000000 | 14, 0x80000000 | 12,   20,   15,   13,
     QMetaType::QString, QMetaType::Int,   20,
-    0x80000000 | 23, QMetaType::Int,   20,
+    0x80000000 | 22, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::Int,   20,
-    QMetaType::Void, 0x80000000 | 26,   27,
+    QMetaType::Void, 0x80000000 | 25,   26,
     QMetaType::Void, 0x80000000 | 12, 0x80000000 | 14, QMetaType::Int, 0x80000000 | 17,   13,   15,   20,   18,
-    QMetaType::QString, 0x80000000 | 30,   31,
+    QMetaType::QString, 0x80000000 | 29,   30,
     QMetaType::Void, QMetaType::Int,   20,
 
        0        // eod
@@ -153,17 +149,16 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 6: _t->playRandomGame(); break;
         case 7: _t->checkAnswer((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 8: _t->createButtons((*reinterpret_cast< QSignalMapper*(*)>(_a[1])),(*reinterpret_cast< QVBoxLayout*(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< QWidget*(*)>(_a[4]))); break;
-        case 9: _t->createButtonsForLevel((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QVBoxLayout*(*)>(_a[2])),(*reinterpret_cast< QSignalMapper*(*)>(_a[3]))); break;
-        case 10: { QString _r = _t->getRandomMorseCodeForLevel((*reinterpret_cast< int(*)>(_a[1])));
+        case 9: { QString _r = _t->getRandomMorseCodeForLevel((*reinterpret_cast< int(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 11: { QMap<QString,int> _r = _t->creatingVariable((*reinterpret_cast< int(*)>(_a[1])));
+        case 10: { QMap<QString,int> _r = _t->creatingVariable((*reinterpret_cast< int(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QMap<QString,int>*>(_a[0]) = std::move(_r); }  break;
-        case 12: _t->createLevelWidget((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 13: _t->ClearFillButtons((*reinterpret_cast< QVector<ColorFillButton*>(*)>(_a[1]))); break;
-        case 14: _t->createButtonsDependOnLevel((*reinterpret_cast< QSignalMapper*(*)>(_a[1])),(*reinterpret_cast< QVBoxLayout*(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< QWidget*(*)>(_a[4]))); break;
-        case 15: { QString _r = _t->getRandomMorseCode((*reinterpret_cast< const QMap<QString,QString>(*)>(_a[1])));
+        case 11: _t->createLevelWidget((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 12: _t->ClearFillButtons((*reinterpret_cast< QVector<ColorFillButton*>(*)>(_a[1]))); break;
+        case 13: _t->createButtonsDependOnLevel((*reinterpret_cast< QSignalMapper*(*)>(_a[1])),(*reinterpret_cast< QVBoxLayout*(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< QWidget*(*)>(_a[4]))); break;
+        case 14: { QString _r = _t->getRandomMorseCode((*reinterpret_cast< const QMap<QString,QString>(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 16: _t->showInfoLevel((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: _t->showInfoLevel((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -180,23 +175,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QWidget* >(); break;
             }
             break;
-        case 9:
-            switch (*reinterpret_cast<int*>(_a[1])) {
-            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-            case 2:
-                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QSignalMapper* >(); break;
-            case 1:
-                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QVBoxLayout* >(); break;
-            }
-            break;
-        case 13:
+        case 12:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QVector<ColorFillButton*> >(); break;
             }
             break;
-        case 14:
+        case 13:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -240,13 +226,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 17)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 17;
+        _id -= 16;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 17)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 17;
+        _id -= 16;
     }
     return _id;
 }
