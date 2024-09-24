@@ -18,6 +18,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     //QTimer *timer = new QTimer(this);
     QFont fontn("Arial",38);
 
+    QString buttonStyle =
+        "QPushButton {"
+        "   background-color: #A9A9A9;"  // DarkGray
+        "   color: black;"               // Boja teksta
+        "   border: 2px solid black;"    // Ivica
+        "   border-radius: 5px;"         // Zaobljeni uglovi
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #808080;"  // Tamnija siva kada se pređe mišem preko dugmeta
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #696969;"  // Još tamnija siva kada je dugme pritisnuto
+        "}";
+
     this->setStyleSheet("background-color: lightgray;");
 
 
@@ -55,15 +69,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     //POCETNA STRANA *START PAGE*
     startPage = new QWidget();
     QVBoxLayout *startLayout = new QVBoxLayout(startPage);
-    QPushButton *learnButton = new QPushButton("learn",startPage);
+    startLayout->setAlignment(Qt::AlignCenter);
+    QPushButton *learnButton = new QPushButton("LEARN",startPage);
+    learnButton->setStyleSheet(buttonStyle);
+    learnButton->setFixedSize(200, 50);
     startLayout->addWidget(learnButton);
     connect(learnButton, &QPushButton::clicked, this, &MainWindow::playGame);
 
-    QPushButton *randomButton = new QPushButton("igraj",startPage);
+    QPushButton *randomButton = new QPushButton("PLAY",startPage);
+    randomButton->setStyleSheet(buttonStyle);
+    randomButton->setFixedSize(200, 50);
     startLayout->addWidget(randomButton);
     connect(randomButton, &QPushButton::clicked, this, &MainWindow::playRandomGame);
 
-    QPushButton *gameButton = new QPushButton("level 1",startPage);
+    QPushButton *gameButton = new QPushButton("START GAME",startPage);
+    gameButton->setStyleSheet(buttonStyle);
+    gameButton->setFixedSize(200, 50);
     startLayout->addWidget(gameButton);
     connect(gameButton, &QPushButton::clicked, this, &MainWindow::startGame);
 
@@ -73,6 +94,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     //DRUGI LEJAUT *GAME PAGE*
     gamePage = new QWidget();
     QVBoxLayout *gamelayout = new QVBoxLayout(gamePage);
+    gamelayout->setAlignment(Qt::AlignCenter);
     randomLetters = new QLabel ("",this);
     randomLetters->setAlignment(Qt::AlignHCenter);
     randomLetters->setFont(fontn);
@@ -82,17 +104,39 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     QSignalMapper *signalMapper1 = new QSignalMapper(this);
 
     createButtons(signalMapper1,gamelayout,0, gamePage);
+    gamelayout->addWidget(randomLetters);
 
-    QPushButton *playButton = new QPushButton("random",gamePage);
-    gamelayout->addWidget(playButton);
+    QPushButton *playButton = new QPushButton("RANDOM",gamePage);
+    QHBoxLayout *horizontalLayout1 = new QHBoxLayout();
+     playButton->setFixedSize(300, 50);
+    horizontalLayout1->addStretch();  // Prazan prostor levo
+    horizontalLayout1->addWidget(playButton);  // Dodaj prvo dugme
+    horizontalLayout1->addStretch();
+    //gamelayout->setAlignment(Qt::AlignCenter);
+
+
+    //gamelayout->addWidget(playButton);  // Dodaj dugme u layout
+
+    //gamelayout->addWidget(playButton);
     connect(playButton, &QPushButton::clicked, this, &MainWindow::randomMorseCode);
 
-    QPushButton *back1 = new QPushButton("pocetna",gamePage);
+    QPushButton *back1 = new QPushButton("BACK",gamePage);
+    QHBoxLayout *horizontalLayout2 = new QHBoxLayout();
     back1->setFixedSize(100, 50);
-    gamelayout->addWidget(back1);
+    horizontalLayout2->addStretch();  // Prazan prostor levo
+    horizontalLayout2->addWidget(back1);  // Dodaj drugo dugme
+    horizontalLayout2->addStretch();
+
+    //gamelayout->addStretch();  // Dodaj prazan prostor pre dugmeta
+    //gamelayout->addWidget(back1);  // Dodaj dugme u layout
+    //gamelayout->addStretch();
+    //gamelayout->addWidget(back1);
     connect(back1, &QPushButton::clicked, this, &MainWindow::backButton);
 
-    gamelayout->addWidget(randomLetters);
+    gamelayout->addLayout(horizontalLayout1);
+    gamelayout->addLayout(horizontalLayout2);
+
+    //gamelayout->addWidget(randomLetters);
 
     gamePage->setLayout(gamelayout);
 
@@ -118,7 +162,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
 
 
 
-    QPushButton *back = new QPushButton("pocetna",this);
+    QPushButton *back = new QPushButton("BACK",this);
     learnlayout->addWidget(back);
     connect(back, &QPushButton::clicked, this, &MainWindow::backButton);
 
@@ -257,20 +301,7 @@ void MainWindow::createButtons(QSignalMapper* signalMapper, QVBoxLayout* layout,
         if (index < alphabet.size()) {
             QPushButton *button = new QPushButton(alphabet.at(index), this);
             button->setFixedSize(50, 50);
-            button->setStyleSheet(
-                "QPushButton {"
-                "   background-color: #A9A9A9;"  // DarkGray
-                "   color: white;"               // Boja teksta
-                "   border: 2px solid black;"    // Ivica
-                "   border-radius: 5px;"         // Zaobljeni uglovi
-                "}"
-                "QPushButton:hover {"
-                "   background-color: #808080;"  // Tamnija siva kada se pređe mišem preko dugmeta
-                "}"
-                "QPushButton:pressed {"
-                "   background-color: #696969;"  // Još tamnija siva kada je dugme pritisnuto
-                "}"
-                );
+            //button->setStyleSheet(buttonStyle);
             buttons.append(button);
             horizontal2->addWidget(button);
 
