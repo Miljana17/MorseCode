@@ -167,30 +167,45 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     //LEJAUT SA TASTEROM
     buttonPage = new QWidget();
     QVBoxLayout *buttonlayout = new QVBoxLayout(buttonPage);
+
+    QHBoxLayout *horizontalLayout11 = new QHBoxLayout();
     QPushButton *randommButton = new QPushButton("RANDOM");
     connect(randommButton, &QPushButton::clicked, this, &MainWindow::randomMorseCodeForLevel);
     randommButton->setFixedSize(100, 50);
+    horizontalLayout11->addStretch();
+    horizontalLayout11->addWidget(randomButton);
+    horizontalLayout11->addStretch();
     randommButton->setStyleSheet(buttonStyle);
+
+    QHBoxLayout *horizontalLayout12 = new QHBoxLayout();
     QPushButton *nextLevelButton = new QPushButton("ADD LETTERS");
     connect(nextLevelButton, &QPushButton::clicked, this, &MainWindow::addLetters);
     nextLevelButton->setFixedSize(100, 50);
+    horizontalLayout12->addStretch();
+    horizontalLayout12->addWidget(nextLevelButton);
+   // horizontalLayout12->addStretch()
     nextLevelButton->setStyleSheet(buttonStyle);
     resultLabel = new QLabel(this);
     resultLabel->setFont(fontn);
-    resultLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
-
+    resultLabel->setStyleSheet("border: 1px solid black; padding: 2px;");
     resultLabel->setAlignment(Qt::AlignHCenter);
     outputLabel = new QLabel(this);
     outputLabel->setFont(fontn);
     outputLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
     outputLabel->setAlignment(Qt::AlignHCenter);
+    outputLabel->setFixedSize(100, 50);
     answerLabel = new QLabel(this);
     answerLabel->setFont(fontn);
     answerLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
     answerLabel->setAlignment(Qt::AlignHCenter);
+
+    QHBoxLayout *horizontalLayout13 = new QHBoxLayout();
     QPushButton *back2 = new QPushButton("BACK",this);
     connect(back2, &QPushButton::clicked, this, &MainWindow::backButton);
-    back1->setStyleSheet(buttonStyle);
+    horizontalLayout13->addStretch();
+    horizontalLayout13->addWidget(back2);
+    horizontalLayout13->addStretch();
+    back2->setStyleSheet(buttonStyle);
 
     outputLabel = new QLabel(this);
     outputLabel->setFont(fontn);
@@ -200,12 +215,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     answerLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
 
     //buttonlayout->addWidget(elapsedTimeLabel);
-    buttonlayout->addWidget(nextLevelButton);
+    buttonlayout->addLayout(horizontalLayout12);
     buttonlayout->addWidget(resultLabel);
     buttonlayout->addWidget(answerLabel);
     buttonlayout->addWidget(outputLabel);
-    buttonlayout->addWidget(randommButton);
-    buttonlayout->addWidget(back2);
+    buttonlayout->addLayout(horizontalLayout11);
+    buttonlayout->addLayout(horizontalLayout13);
 
     buttonPage->setLayout(buttonlayout);
 
@@ -895,11 +910,13 @@ void MainWindow::checkButtonState() {
 void MainWindow::onIdleTimeout() {
     // Nakon 700ms neaktivnosti, ispiši string u labelu i resetuj ga
     answerLabel->setText(buttonPresses);
+    answerLabel->setAlignment(Qt::AlignHCenter);
 
     //OVDE BI MOGAO DA IZVRSI PROVERU DA LI JE DOBRO
     if (buttonPresses == letterInfo[currentMorseCode]) {
         // Stringovi su isti
         outputLabel->setText("TACNO");
+        outputLabel->setAlignment(Qt::AlignHCenter);
         QTimer::singleShot(700, this, [this]()
         {
                 randomMorseCodeForLevel();
@@ -911,6 +928,7 @@ void MainWindow::onIdleTimeout() {
     } else {
         // Stringovi se ne podudaraju
         outputLabel->setText("NETACNO");
+        outputLabel->setAlignment(Qt::AlignHCenter);
         QTimer::singleShot(700, this, [this]()
         {
                 outputLabel->setText(" ");
