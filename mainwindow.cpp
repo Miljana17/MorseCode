@@ -25,14 +25,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     pinMode(BUTTON_PIN, INPUT);
 
     idleTimer = new QTimer(this);
-    idleTimer->setInterval(700);  // 700ms bez pritiska
+    idleTimer->setInterval(900);  // 700ms bez pritiska
     connect(idleTimer, &QTimer::timeout, this, &MainWindow::onIdleTimeout);
 
 
     // Koristi timer za periodičnu proveru stanja tastera
     QTimer *pollingTimer = new QTimer(this);
     connect(pollingTimer, &QTimer::timeout, this, &MainWindow::checkButtonState);
-    pollingTimer->start(50);  // Proverava svakih 50ms
+    pollingTimer->start(20);  // Proverava svakih 50ms
 
 
     QString buttonStyle =
@@ -181,12 +181,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     resultLabel->setAlignment(Qt::AlignHCenter);
     outputLabel = new QLabel(this);
     outputLabel->setFont(fontn);
-    outputLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+    //outputLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
     outputLabel->setAlignment(Qt::AlignHCenter);
     outputLabel->setFixedSize(100, 50);
     answerLabel = new QLabel(this);
     answerLabel->setFont(fontn);
-    answerLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+    //answerLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
     answerLabel->setAlignment(Qt::AlignHCenter);
 
     QHBoxLayout *horizontalLayout13 = new QHBoxLayout();
