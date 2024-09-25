@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     pinMode(BUTTON_PIN, INPUT);
 
     idleTimer = new QTimer(this);
-    idleTimer->setInterval(700);  // 700ms bez pritiska
+    idleTimer->setInterval(450);  // 700ms bez pritiska
     connect(idleTimer, &QTimer::timeout, this, &MainWindow::onIdleTimeout);
 
 
@@ -897,7 +897,7 @@ void MainWindow::onIdleTimeout() {
         // Stringovi su isti
         outputLabel->setText("TACNO");
         outputLabel->setAlignment(Qt::AlignHCenter);
-        QTimer::singleShot(400, this, [this]()
+        QTimer::singleShot(700, this, [this]()
         {
                 randomMorseCodeForLevel();
                 outputLabel->setText(" ");
@@ -909,7 +909,7 @@ void MainWindow::onIdleTimeout() {
         // Stringovi se ne podudaraju
         outputLabel->setText("NETACNO");
         outputLabel->setAlignment(Qt::AlignHCenter);
-        QTimer::singleShot(400, this, [this]()
+        QTimer::singleShot(700, this, [this]()
         {
                 outputLabel->setText(" ");
                 answerLabel->setText(" ");
