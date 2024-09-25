@@ -11,6 +11,9 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QProgressBar>
+#include <QElapsedTimer>
+#include <QTimer>
+
 #include "circlewidget.h"
 #include "ColorFillButton.h"
 
@@ -32,9 +35,11 @@ private slots:
     void showLetterInfo(int index);  // Slot za prikaz informacija
     void clearInfo();  // Slot za brisanje informacija
     void playGame();
+    void gameStart();
     void backButton();
     void startGame();
     void randomMorseCode();
+    void randomMorseCodeForLevel();
     void playRandomGame();
     void checkAnswer(int index);
     void createButtons(QSignalMapper* signalMapper, QVBoxLayout* layout, int x, QWidget* widget);
@@ -47,6 +52,9 @@ private slots:
 
     QString getRandomMorseCode(const QMap<QString, QString>& letterInfo);
     void showInfoLevel (int level);
+    void checkButtonState();
+    void onIdleTimeout();
+
 
 private:
     struct ButtonInfo {
@@ -65,9 +73,11 @@ private:
     QLabel *letterLabel;
     QLabel *scoreLabel;
     QLabel *responseLabel;
+    QLabel *resultLabel;
+    QLabel *outputLabel;
      QLabel *nextLevelLabel;
     QProgressBar *progressBar;
-    QTimer *timer;
+    //QTimer *timer;
     QVector<QPushButton*> buttons;  // Niz dugmadi
     QVector<ColorFillButton*> buttonsFill;
     QPushButton *newwindow;
@@ -122,6 +132,7 @@ private:
     QWidget *gamePage;
     QWidget *learnPage;
     QWidget *levelsPage;
+    QWidget *buttonPage;
     QWidget *level1Page;
     QWidget *levelPage;
      QWidget *nextLevelPage;
@@ -131,6 +142,11 @@ private:
      CircleWidget *circle1;
      CircleWidget *circle2;
      CircleWidget *circle3;
+     QElapsedTimer timer;
+     QString buttonPresses;  // String koji čuva niz tačaka i crta
+     QTimer *idleTimer;
+     bool isPressed;
+
 
 
 

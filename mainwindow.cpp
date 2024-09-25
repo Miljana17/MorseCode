@@ -11,12 +11,29 @@
 #include <QTimer>
 #include <QDebug>
 #include <QThread>
+#include <wiringPi.h>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0), alphabet("QWERTYUIOPASDFGHJKLZXCVBNM"), currentMorseCode("") {
+#define BUTTON_PIN 1
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0), alphabet("QWERTYUIOPASDFGHJKLZXCVBNM"), isPressed(false), currentMorseCode("") {
 
     setWindowTitle("MORSE CODE");
     //QTimer *timer = new QTimer(this);
     QFont fontn("Arial",38);
+
+    wiringPiSetup();
+    pinMode(BUTTON_PIN, INPUT);
+
+    idleTimer = new QTimer(this);
+    idleTimer->setInterval(700);  // 700ms bez pritiska
+    connect(idleTimer, &QTimer::timeout, this, &MainWindow::onIdleTimeout);
+
+
+    // Koristi timer za periodičnu proveru stanja tastera
+    QTimer *pollingTimer = new QTimer(this);
+    connect(pollingTimer, &QTimer::timeout, this, &MainWindow::checkButtonState);
+    pollingTimer->start(50);  // Proverava svakih 50ms
+
 
     QString buttonStyle =
         "QPushButton {"
@@ -76,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     startLayout->addWidget(learnButton);
     connect(learnButton, &QPushButton::clicked, this, &MainWindow::playGame);
 
-    QPushButton *randomButton = new QPushButton("PLAY",startPage);
+    QPushButton *randomButton = new QPushButton("PRACTICE",startPage);
     randomButton->setStyleSheet(buttonStyle);
     randomButton->setFixedSize(200, 50);
     startLayout->addWidget(randomButton);
@@ -87,6 +104,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     gameButton->setFixedSize(200, 50);
     startLayout->addWidget(gameButton);
     connect(gameButton, &QPushButton::clicked, this, &MainWindow::startGame);
+
+    QPushButton *playButton = new QPushButton("PLAY GAME",startPage);
+    playButton->setStyleSheet(buttonStyle);
+    playButton->setFixedSize(200, 50);
+    startLayout->addWidget(playButton);
+    connect(playButton, &QPushButton::clicked, this, &MainWindow::gameStart);
+
 
 
     startPage->setLayout(startLayout);
@@ -106,11 +130,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     createButtons(signalMapper1,gamelayout,0, gamePage);
     gamelayout->addWidget(randomLetters);
 
-    QPushButton *playButton = new QPushButton("RANDOM",gamePage);
+    QPushButton *playyButton = new QPushButton("RANDOMIZUJ",gamePage);
     QHBoxLayout *horizontalLayout1 = new QHBoxLayout();
-     playButton->setFixedSize(300, 50);
+    playyButton->setFixedSize(300, 50);
     horizontalLayout1->addStretch();  // Prazan prostor levo
-    horizontalLayout1->addWidget(playButton);  // Dodaj prvo dugme
+    horizontalLayout1->addWidget(playyButton);  // Dodaj prvo dugme
     horizontalLayout1->addStretch();
     //gamelayout->setAlignment(Qt::AlignCenter);
 
@@ -139,6 +163,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     //gamelayout->addWidget(randomLetters);
 
     gamePage->setLayout(gamelayout);
+
+    //LEJAUT SA TASTEROM
+    buttonPage = new QWidget();
+    QVBoxLayout *buttonlayout = new QVBoxLayout(buttonPage);
+    QPushButton *randommButton = new QPushButton("RANDOM");
+    connect(randommButton, &QPushButton::clicked, this, &MainWindow::randomMorseCodeForLevel);
+    resultLabel = new QLabel(this);
+    outputLabel = new QLabel(this);
+    //buttonlayout->addWidget(elapsedTimeLabel);
+    buttonlayout->addWidget(resultLabel);
+    buttonlayout->addWidget(outputLabel);
+    buttonlayout->addWidget(randommButton);
+
+    buttonPage->setLayout(buttonlayout);
+
+
 
 
 
@@ -175,6 +215,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     stackedWidget->addWidget(gamePage);
     stackedWidget->addWidget(level1Page);
     stackedWidget->addWidget(nextLevelPage);
+    stackedWidget->addWidget(buttonPage);
 
 
 
@@ -223,6 +264,11 @@ void MainWindow::startGame()
 
 }
 
+void MainWindow::gameStart()
+{
+        stackedWidget->setCurrentWidget(buttonPage);
+}
+
 
 
 QString MainWindow::getRandomMorseCode(const QMap<QString, QString>& letterInfo) {
@@ -245,6 +291,11 @@ void MainWindow::randomMorseCode() {
     randomLetters->setText(letterInfo[randomMorse]); //ispusuje u labelu iznad tastature morsov code koji je randomizovan tipa .-
 
     currentMorseCode = randomMorse;
+}
+
+void MainWindow::randomMorseCodeForLevel()
+{
+    getRandomMorseCodeForLevel(1);
 }
 
 void MainWindow::checkAnswer(int index) {
@@ -776,6 +827,61 @@ void MainWindow::ClearFillButtons(QVector<ColorFillButton*> buttons)
         buttons[i]->setFilledParts(0);
     }
 }
+
+void MainWindow::checkButtonState() {
+    // Čitanje stanja tastera
+    int buttonState = digitalRead(BUTTON_PIN);
+
+    if (buttonState == LOW && !isPressed) {
+        // Ako je taster pritisnut i prethodno nije bio
+        timer.start();
+        isPressed = true;
+        idleTimer->stop();  // Zaustavi timer za neaktivnost dok je taster pritisnut
+    } else if (buttonState == HIGH && isPressed) {
+        // Ako je taster pušten
+        qint64 duration = timer.elapsed();
+        isPressed = false;
+
+        // Provera vremena trajanja pritiska i ažuriranje QLabel-a
+        if (duration < 198) {
+            buttonPresses.append(".");
+            //elapsedTimeLabel->setText(".");  // Ispisuje tačku ako je pritisak kraći od 180ms
+            //timeLabel->setText(QString("Taster je bio pritisnut %1 ms").arg(duration));
+        } else if (duration > 200 && duration < 500) {
+            buttonPresses.append("-");
+            //elapsedTimeLabel->setText("-");  // Ispisuje crticu ako je pritisak između 200ms i 500ms
+            //timeLabel->setText(QString("Taster je bio pritisnut %1 ms").arg(duration));
+        } else {
+            //elapsedTimeLabel->setText("Pritisak nije validan");  // Poruka za ostale slučajeve
+            //timeLabel->setText(QString("Taster je bio pritisnut %1 ms").arg(duration));
+        }
+
+        // Ponovo pokreni idle timer da čeka 700ms
+        idleTimer->start();
+    }
+}
+
+void MainWindow::onIdleTimeout() {
+    // Nakon 700ms neaktivnosti, ispiši string u labelu i resetuj ga
+    outputLabel->setText(buttonPresses);
+
+    //OVDE BI MOGAO DA IZVRSI PROVERU DA LI JE DOBRO
+    if (buttonPresses == letterInfo[currentMorseCode]) {
+        // Stringovi su isti
+        resultLabel->setText("TACNO");
+    } else {
+        // Stringovi se ne podudaraju
+        resultLabel->setText("NETACNO");
+    }
+
+    // Resetuj string za sledeći unos
+    buttonPresses.clear();
+
+    // Zaustavi timer dok ponovo ne počne unos
+    idleTimer->stop();
+}
+
+
 
 
 
