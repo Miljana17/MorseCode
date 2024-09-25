@@ -173,10 +173,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     connect(nextLevelButton, &QPushButton::clicked, this, &MainWindow::addLetters);
     resultLabel = new QLabel(this);
     resultLabel->setFont(fontn);
+    resultLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
     outputLabel = new QLabel(this);
     outputLabel->setFont(fontn);
+    outputLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
     answerLabel = new QLabel(this);
     answerLabel->setFont(fontn);
+    answerLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
     //buttonlayout->addWidget(elapsedTimeLabel);
     buttonlayout->addWidget(nextLevelButton);
     buttonlayout->addWidget(resultLabel);
@@ -310,6 +313,7 @@ void MainWindow::randomMorseCodeForLevel()
 void MainWindow::addLetters()
 {
     currentLevel++;
+    showInfoLevel(currentLevel);
 }
 
 void MainWindow::checkAnswer(int index) {
@@ -876,9 +880,23 @@ void MainWindow::onIdleTimeout() {
     if (buttonPresses == letterInfo[currentMorseCode]) {
         // Stringovi su isti
         outputLabel->setText("TACNO");
+        QTimer::singleShot(700, this, [this]()
+        {
+                randomMorseCodeForLevel();
+                outputLabel->setText(" ");
+                answerLabel->setText(" ");
+
+
+        });
     } else {
         // Stringovi se ne podudaraju
         outputLabel->setText("NETACNO");
+        QTimer::singleShot(700, this, [this]()
+        {
+                outputLabel->setText(" ");
+                answerLabel->setText(" ");
+
+        });
     }
 
     // Resetuj string za sledeći unos
