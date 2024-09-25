@@ -136,12 +136,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     horizontalLayout1->addStretch();  // Prazan prostor levo
     horizontalLayout1->addWidget(playyButton);  // Dodaj prvo dugme
     horizontalLayout1->addStretch();
-    //gamelayout->setAlignment(Qt::AlignCenter);
 
-
-    //gamelayout->addWidget(playButton);  // Dodaj dugme u layout
-
-    //gamelayout->addWidget(playButton);
     connect(playButton, &QPushButton::clicked, this, &MainWindow::randomMorseCode);
 
     QPushButton *back1 = new QPushButton("BACK",gamePage);
@@ -151,16 +146,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     horizontalLayout2->addWidget(back1);  // Dodaj drugo dugme
     horizontalLayout2->addStretch();
 
-    //gamelayout->addStretch();  // Dodaj prazan prostor pre dugmeta
-    //gamelayout->addWidget(back1);  // Dodaj dugme u layout
-    //gamelayout->addStretch();
-    //gamelayout->addWidget(back1);
     connect(back1, &QPushButton::clicked, this, &MainWindow::backButton);
 
     gamelayout->addLayout(horizontalLayout1);
     gamelayout->addLayout(horizontalLayout2);
 
-    //gamelayout->addWidget(randomLetters);
 
     gamePage->setLayout(gamelayout);
 
