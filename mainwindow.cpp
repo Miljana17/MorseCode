@@ -182,7 +182,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     outputLabel->setFont(fontn);
     outputLabel->setStyleSheet("border: 2px solid black; padding: 2px;");
     outputLabel->setAlignment(Qt::AlignHCenter);
-    outputLabel->setFixedSize(100, 50);
     answerLabel = new QLabel(this);
     answerLabel->setFont(fontn);
     answerLabel->setStyleSheet("border: 2px solid black; padding: 2px;");
