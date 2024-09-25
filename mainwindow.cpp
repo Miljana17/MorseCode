@@ -178,6 +178,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     resultLabel = new QLabel(this);
     resultLabel->setFont(fontn);
     resultLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+
     resultLabel->setAlignment(Qt::AlignHCenter);
     outputLabel = new QLabel(this);
     outputLabel->setFont(fontn);
@@ -190,6 +191,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     QPushButton *back2 = new QPushButton("BACK",this);
     connect(back2, &QPushButton::clicked, this, &MainWindow::backButton);
     back1->setStyleSheet(buttonStyle);
+
+    outputLabel = new QLabel(this);
+    outputLabel->setFont(fontn);
+    outputLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+    answerLabel = new QLabel(this);
+    answerLabel->setFont(fontn);
+    answerLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+
     //buttonlayout->addWidget(elapsedTimeLabel);
     buttonlayout->addWidget(nextLevelButton);
     buttonlayout->addWidget(resultLabel);
