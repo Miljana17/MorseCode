@@ -18,7 +18,6 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0), alphabet("QWERTYUIOPASDFGHJKLZXCVBNM"), isPressed(false), currentMorseCode("") {
 
     setWindowTitle("MORSE CODE");
-    //QTimer *timer = new QTimer(this);
     QFont fontn("Arial",38);
 
     wiringPiSetup();
@@ -123,14 +122,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     randomLetters->setAlignment(Qt::AlignHCenter);
     randomLetters->setFont(fontn);
 
-
-    // Kreiraj dugmad sa slovima alfabeta
     QSignalMapper *signalMapper1 = new QSignalMapper(this);
 
     createButtons(signalMapper1,gamelayout,0, gamePage);
     gamelayout->addWidget(randomLetters);
 
-    QPushButton *playyButton = new QPushButton("RANDOMIZUJ",gamePage);
+    QPushButton *playyButton = new QPushButton("RANDOM",gamePage);
     QHBoxLayout *horizontalLayout1 = new QHBoxLayout();
     playyButton->setFixedSize(300, 50);
     horizontalLayout1->addStretch();  // Prazan prostor levo
@@ -154,6 +151,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
 
     gamePage->setLayout(gamelayout);
 
+    //KRAJ GAME PAGE LEJAUTA
+
     //LEJAUT SA TASTEROM
     buttonPage = new QWidget();
     QVBoxLayout *buttonlayout = new QVBoxLayout(buttonPage);
@@ -173,20 +172,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     nextLevelButton->setFixedSize(100, 50);
     horizontalLayout12->addStretch();
     horizontalLayout12->addWidget(nextLevelButton);
-   // horizontalLayout12->addStretch()
     nextLevelButton->setStyleSheet(buttonStyle);
+
     resultLabel = new QLabel(this);
     resultLabel->setFont(fontn);
-    resultLabel->setStyleSheet("border: 1px solid black; padding: 2px;");
+    resultLabel->setStyleSheet("border: 2px solid black; padding: 2px;");
     resultLabel->setAlignment(Qt::AlignHCenter);
     outputLabel = new QLabel(this);
     outputLabel->setFont(fontn);
-    //outputLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+    outputLabel->setStyleSheet("border: 2px solid black; padding: 2px;");
     outputLabel->setAlignment(Qt::AlignHCenter);
     outputLabel->setFixedSize(100, 50);
     answerLabel = new QLabel(this);
     answerLabel->setFont(fontn);
-    //answerLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+    answerLabel->setStyleSheet("border: 2px solid black; padding: 2px;");
     answerLabel->setAlignment(Qt::AlignHCenter);
 
     QHBoxLayout *horizontalLayout13 = new QHBoxLayout();
@@ -198,14 +197,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     back2->setStyleSheet(buttonStyle);
     back2->setFixedSize(100, 50);
 
-    outputLabel = new QLabel(this);
-    outputLabel->setFont(fontn);
-    outputLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
-    answerLabel = new QLabel(this);
-    answerLabel->setFont(fontn);
-    answerLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
-
-    //buttonlayout->addWidget(elapsedTimeLabel);
     buttonlayout->addLayout(horizontalLayout12);
     buttonlayout->addWidget(resultLabel);
     buttonlayout->addWidget(answerLabel);
@@ -214,6 +205,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     buttonlayout->addLayout(horizontalLayout13);
 
     buttonPage->setLayout(buttonlayout);
+
+    //ZAVRSETAK LEJAUTA SA TASTEROM
 
 
 
@@ -683,9 +676,6 @@ void MainWindow::createButtonsDependOnLevel(QSignalMapper* signalMapper, QVBoxLa
     layout->addLayout(circlelayout);
 
     QFont fontn("Arial",38);
-    /*scoreLabel = new QLabel ("",widget);
-    scoreLabel->setAlignment(Qt::AlignHCenter);
-    scoreLabel->setFont(fontn);*/
 
     letterLabel = new QLabel ("",widget);
     letterLabel->setAlignment(Qt::AlignHCenter);
