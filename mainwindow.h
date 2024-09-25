@@ -54,6 +54,7 @@ private slots:
     void showInfoLevel (int level);
     void checkButtonState();
     void onIdleTimeout();
+    void addLetters();
 
 
 private:
@@ -64,6 +65,7 @@ private:
     };
 
     void checkAnswer1(MainWindow::ButtonInfo info);
+    int currentLevel = 1;
 
     QVBoxLayout *level2Layout;          // Layout koji će se koristiti u drugim funkcijama
     QSignalMapper *signalMapperlevel2;
@@ -71,6 +73,7 @@ private:
     QLabel *hoverLabel;  // Oznaka koja će prikazivati informaciju
     QLabel *randomLetters;
     QLabel *letterLabel;
+    QLabel *answerLabel;
     QLabel *scoreLabel;
     QLabel *responseLabel;
     QLabel *resultLabel;

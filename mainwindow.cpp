@@ -169,10 +169,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     QVBoxLayout *buttonlayout = new QVBoxLayout(buttonPage);
     QPushButton *randommButton = new QPushButton("RANDOM");
     connect(randommButton, &QPushButton::clicked, this, &MainWindow::randomMorseCodeForLevel);
+    QPushButton *nextLevelButton = new QPushButton("ADD LETTERS");
+    connect(nextLevelButton, &QPushButton::clicked, this, &MainWindow::addLetters);
     resultLabel = new QLabel(this);
+    resultLabel->setFont(fontn);
     outputLabel = new QLabel(this);
+    outputLabel->setFont(fontn);
+    answerLabel = new QLabel(this);
+    answerLabel->setFont(fontn);
     //buttonlayout->addWidget(elapsedTimeLabel);
+    buttonlayout->addWidget(nextLevelButton);
     buttonlayout->addWidget(resultLabel);
+    buttonlayout->addWidget(answerLabel);
     buttonlayout->addWidget(outputLabel);
     buttonlayout->addWidget(randommButton);
 
@@ -295,7 +303,13 @@ void MainWindow::randomMorseCode() {
 
 void MainWindow::randomMorseCodeForLevel()
 {
-    getRandomMorseCodeForLevel(1);
+    getRandomMorseCodeForLevel(currentLevel);
+    resultLabel->setText(currentMorseCode);
+}
+
+void MainWindow::addLetters()
+{
+    currentLevel++;
 }
 
 void MainWindow::checkAnswer(int index) {
@@ -565,13 +579,6 @@ QMap<QString, int> MainWindow::creatingVariable(int level)
 
 void MainWindow::createLevelWidget(int level)
 {
-    /*if (levelPage != nullptr) {
-        qDebug() << "Usao u brisanje WIDGETA";
-        //stackedWidget->setCurrentWidget(nextLevelPage);  // Prebaci na drugi widget
-        stackedWidget->removeWidget(levelPage);  // Ukloni iz stackedWidget
-        levelPage->deleteLater();  // Odloži brisanje
-        levelPage = nullptr;  // Postavi pokazivač na nullptr
-    }*/
 
     numOfInccorect = 0;
     progress = 0;
@@ -863,15 +870,15 @@ void MainWindow::checkButtonState() {
 
 void MainWindow::onIdleTimeout() {
     // Nakon 700ms neaktivnosti, ispiši string u labelu i resetuj ga
-    outputLabel->setText(buttonPresses);
+    answerLabel->setText(buttonPresses);
 
     //OVDE BI MOGAO DA IZVRSI PROVERU DA LI JE DOBRO
     if (buttonPresses == letterInfo[currentMorseCode]) {
         // Stringovi su isti
-        resultLabel->setText("TACNO");
+        outputLabel->setText("TACNO");
     } else {
         // Stringovi se ne podudaraju
-        resultLabel->setText("NETACNO");
+        outputLabel->setText("NETACNO");
     }
 
     // Resetuj string za sledeći unos
