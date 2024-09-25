@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     pinMode(BUTTON_PIN, INPUT);
 
     idleTimer = new QTimer(this);
-    idleTimer->setInterval(450);  // 700ms bez pritiska
+    idleTimer->setInterval(600);  // 700ms bez pritiska
     connect(idleTimer, &QTimer::timeout, this, &MainWindow::onIdleTimeout);
 
 
