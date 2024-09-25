@@ -476,7 +476,7 @@ void MainWindow::checkAnswer1(MainWindow::ButtonInfo info) {
                         }
                     }
                     //KRAJ LOGIKE ZA PROGRESS BAR
-                    //scoreLabel->setText(QString::fromStdString(std::to_string(variableMap[selectedLetter])));
+
                     int m = 0;
                     for (int x = 0; x < letters.size(); ++x)
                     {
