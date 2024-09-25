@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-e90fbb659c3e73f5b18b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "MorseCode",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "MorseCode::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MorseCode-Debug-ca9719605c55ab48d102.json",
+					"name" : "MorseCode",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MorseCode_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MorseCode_autogen-Debug-37c34125b477b5a061bc.json",
+					"name" : "MorseCode_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MorseCode_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MorseCode_autogen_timestamp_deps-Debug-a1fd88bfdeb578ff998d.json",
+					"name" : "MorseCode_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/miljana/MorseCode/build/Desktop-Debug",
+		"source" : "/home/miljana/MorseCode"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
