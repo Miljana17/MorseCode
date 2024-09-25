@@ -169,20 +169,34 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), numOfInccorect(0)
     QVBoxLayout *buttonlayout = new QVBoxLayout(buttonPage);
     QPushButton *randommButton = new QPushButton("RANDOM");
     connect(randommButton, &QPushButton::clicked, this, &MainWindow::randomMorseCodeForLevel);
+    randommButton->setFixedSize(100, 50);
+    randommButton->setStyleSheet(buttonStyle);
     QPushButton *nextLevelButton = new QPushButton("ADD LETTERS");
     connect(nextLevelButton, &QPushButton::clicked, this, &MainWindow::addLetters);
+    nextLevelButton->setFixedSize(100, 50);
+    nextLevelButton->setStyleSheet(buttonStyle);
     resultLabel = new QLabel(this);
     resultLabel->setFont(fontn);
+    resultLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+    resultLabel->setAlignment(Qt::AlignHCenter);
     outputLabel = new QLabel(this);
     outputLabel->setFont(fontn);
+    outputLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+    outputLabel->setAlignment(Qt::AlignHCenter);
     answerLabel = new QLabel(this);
     answerLabel->setFont(fontn);
+    answerLabel->setStyleSheet("border: 2px solid black; padding: 5px;");
+    answerLabel->setAlignment(Qt::AlignHCenter);
+    QPushButton *back2 = new QPushButton("BACK",this);
+    connect(back2, &QPushButton::clicked, this, &MainWindow::backButton);
+    back1->setStyleSheet(buttonStyle);
     //buttonlayout->addWidget(elapsedTimeLabel);
     buttonlayout->addWidget(nextLevelButton);
     buttonlayout->addWidget(resultLabel);
     buttonlayout->addWidget(answerLabel);
     buttonlayout->addWidget(outputLabel);
     buttonlayout->addWidget(randommButton);
+    buttonlayout->addWidget(back2);
 
     buttonPage->setLayout(buttonlayout);
 
@@ -310,6 +324,7 @@ void MainWindow::randomMorseCodeForLevel()
 void MainWindow::addLetters()
 {
     currentLevel++;
+    showInfoLevel(currentLevel);
 }
 
 void MainWindow::checkAnswer(int index) {
@@ -876,9 +891,23 @@ void MainWindow::onIdleTimeout() {
     if (buttonPresses == letterInfo[currentMorseCode]) {
         // Stringovi su isti
         outputLabel->setText("TACNO");
+        QTimer::singleShot(700, this, [this]()
+        {
+                randomMorseCodeForLevel();
+                outputLabel->setText(" ");
+                answerLabel->setText(" ");
+
+
+        });
     } else {
         // Stringovi se ne podudaraju
         outputLabel->setText("NETACNO");
+        QTimer::singleShot(700, this, [this]()
+        {
+                outputLabel->setText(" ");
+                answerLabel->setText(" ");
+
+        });
     }
 
     // Resetuj string za sledeći unos
